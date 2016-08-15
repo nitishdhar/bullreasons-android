@@ -5,13 +5,14 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
   Text,
   View,
   ListView,
   TouchableNativeFeedback,
-  ScrollView
+  ScrollView,
 } from 'react-native';
+
+import { styles } from './styles';
 
 class bullreaons extends Component {
 
@@ -22,6 +23,9 @@ class bullreaons extends Component {
       reasons: reasonsDS,
       loadingText: ''
     };
+  }
+
+  componentDidMount() {
     this._fetchReasons();
   }
 
@@ -43,53 +47,34 @@ class bullreaons extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>
-          All Reasons
-        </Text>
-        <View>
-          <Text style={styles.loading}>
-            {this.state.loadingText}
+        <View style={styles.header}>
+          <Text style={styles.heading}>
+            BullReasons
           </Text>
+          <TouchableNativeFeedback onPress={this._fetchReasons.bind(this)}>
+            <View style={styles.navigation}>
+              <Text style={styles.reloadButton}>Reload</Text>
+            </View>
+          </TouchableNativeFeedback>
+        </View>
+        <View style={styles.listContainer}>
+          <View style={styles.loading}>
+            <Text style={styles.loadingText}>{this.state.loadingText}</Text>
+          </View>
           <ScrollView>
             <ListView
-              style={{flex: 1, height: 400}}
               dataSource={this.state.reasons}
               renderRow={ (rowData) =>
-                <Text style={styles.reason}>{rowData.title} - {rowData.reason}</Text>
+                <View style={styles.reasonListItem}>
+                  <Text style={styles.reasonListText}>{rowData.title} - {rowData.reason}</Text>
+                </View>
               }
             />
           </ScrollView>
-          <TouchableNativeFeedback onPress={this._fetchReasons.bind(this)}>
-            <View><Text style={styles.reload}>Reload Reasons</Text></View>
-          </TouchableNativeFeedback>
         </View>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'powderblue',
-  },
-  heading: {
-    fontSize: 28,
-    margin: 10,
-  },
-  reason: {
-    fontSize: 15,
-    margin: 10
-  },
-  loading: {
-    fontSize: 15
-  },
-  reload: {
-    fontSize: 20,
-    alignItems: 'center',
-    backgroundColor: 'steelblue',
-    padding: 10
-  }
-});
 
 AppRegistry.registerComponent('bullreaons', () => bullreaons);
