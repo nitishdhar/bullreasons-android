@@ -13,8 +13,9 @@ import {
 } from 'react-native';
 
 import { styles } from './styles';
+import { appConfig } from './appConfig';
 
-class bullreaons extends Component {
+class bullreasons extends Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +34,7 @@ class bullreaons extends Component {
     // Fetch reasons and load
     this.setState({loadingText: 'Fetching all reasons...'});
     console.log("Fetching Reasons");
-    fetch('http://10.0.0.187:3000/reasons')
+    fetch(appConfig.apiHost + '/reasons')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({reasons: this.state.reasons.cloneWithRows(responseJson)});
@@ -77,4 +78,4 @@ class bullreaons extends Component {
   }
 }
 
-AppRegistry.registerComponent('bullreaons', () => bullreaons);
+AppRegistry.registerComponent('bullreasons', () => bullreasons);
